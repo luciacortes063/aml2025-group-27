@@ -429,6 +429,7 @@ def process_subject(subject_id, fname):
 
 
 
+
 print(f"Processing {len(new_files)} subjects in parallel with 8workers.")
 with ThreadPoolExecutor(max_workers=8) as executor:
     futures = [executor.submit(process_subject, subject_id, fname) for subject_id, fname in new_files]
