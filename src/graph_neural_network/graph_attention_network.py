@@ -1,5 +1,4 @@
 import os
-import json
 import pickle
 import torch
 import torch.nn.functional as F
@@ -38,6 +37,7 @@ for data in data_list:
     if data.y.item() == 2:
         data.y = torch.tensor([1], dtype=torch.long)
 
+
 # find augmented data
 metadata_df["is_augmented"] = metadata_df["subject_id"].str.contains("_aug")
 metadata_df["subject_real"] = metadata_df["subject_id"].str.replace(r"_aug\\d*", "", regex=True)
@@ -47,6 +47,7 @@ print("Checking edge_index integrity...")
 data_list = [data for data in data_list if data.edge_index.max().item() < data.x.size(0)]
 
 # Global variables
+
 label_names = {0: "CN", 1: "AD"}
 in_dim = data_list[0].num_node_features
 num_classes = len(label_names)
@@ -111,7 +112,6 @@ class GATClassifier(torch.nn.Module):
         x = F.elu(x)
         x = global_mean_pool(x, batch)
         return self.mlp(x)
-
 
 # Train function
 def train(model, loader, optimizer, class_weights):
@@ -197,7 +197,6 @@ for fold, (train_subject_idx, test_subject_idx) in enumerate(folds):
     class_weights = torch.tensor([
         len(y_train) / (2 * class_sample_count[i]) for i in label_names
     ]).to(device)
-
     model = GATClassifier(
         in_channels=in_dim,
         hidden_channels=64,
@@ -230,6 +229,7 @@ for fold, (train_subject_idx, test_subject_idx) in enumerate(folds):
                 print("Early stopping (val_f1)")
                 break
 
+
     # Evaluate on test
     model.load_state_dict(best_model_state)
     y_true_test, y_pred_test, y_probs_test = evaluate(model, test_loader, return_probs=True)
@@ -252,6 +252,7 @@ for fold, (train_subject_idx, test_subject_idx) in enumerate(folds):
     all_val_f1s.append(val_f1s)
 
     print(classification_report(y_true_test, y_pred_test, target_names=["CN", "AD"], digits=4, zero_division=0))
+
 
 # Final report
 print("\n📊 FINAL RESULT (5-Fold CV Test Set):")
