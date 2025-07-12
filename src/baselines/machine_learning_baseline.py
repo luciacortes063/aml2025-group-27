@@ -129,7 +129,7 @@ for fname in tqdm(os.listdir(PREPROC_DIR), desc="Extracting features"):
                 ])
 
             if len(features) != 928: #sanity check
-                print(f"❌ Skipping {fname} (aug{aug_idx}): expected 928 features, got {len(features)}")
+                print(f"Skipping {fname} (aug{aug_idx}): expected 928 features, got {len(features)}")
                 continue
 
             X.append(features)
@@ -138,7 +138,7 @@ for fname in tqdm(os.listdir(PREPROC_DIR), desc="Extracting features"):
 
 
     except Exception as e:
-        print(f"⚠️ Error in {fname}: {e}")
+        print(f"Error in {fname}: {e}")
 
 X = np.array(X)
 y = np.array(y)
@@ -227,7 +227,7 @@ for fold, (train_idx, test_idx) in enumerate(folds):
     print(classification_report(y_test, y_pred_test, target_names=["CN", "AD"], digits=4, zero_division=0))
 
 # Print results
-print("\n📊 FINAL RESULTS (5-Fold CV):")
+print("\n FINAL RESULTS (5-Fold CV):")
 print(f"   F1-score (macro)     : {np.mean(all_f1s):.4f} ± {np.std(all_f1s):.4f}")
 print(f"   Precision (macro)    : {np.mean(all_precisions):.4f} ± {np.std(all_precisions):.4f}")
 print(f"   Recall (macro)       : {np.mean(all_recalls):.4f} ± {np.std(all_recalls):.4f}")
