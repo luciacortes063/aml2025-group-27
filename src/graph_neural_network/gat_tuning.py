@@ -8,7 +8,7 @@ from sklearn.metrics import f1_score
 from torch_geometric.loader import DataLoader
 from torch.utils.data import WeightedRandomSampler
 from sklearn.model_selection import GroupKFold, train_test_split
-from src.graph_neural_network.gat_alex_separation import GATClassifier, select_graphs, evaluate, train, compute_val_loss
+from src.graph_neural_network.graph_attention_network import GATClassifier, select_graphs, evaluate, train, compute_val_loss
 from sklearn.metrics import accuracy_score, recall_score, roc_auc_score
 
 GRAPH_PATH = "data/pyg_graphs/graphs.pk_linear"
@@ -50,7 +50,7 @@ results = []
 
 for params in itertools.product(*param_grid.values()):
     hparams = dict(zip(param_grid.keys(), params))
-    print(f"\n🔍 Testing combination: {hparams}")
+    print(f"\n Testing combination: {hparams}")
     
     fold_scores = []
 
@@ -143,7 +143,7 @@ for params in itertools.product(*param_grid.values()):
         k: np.nanstd([m[k] for m in fold_metrics]) for k in fold_metrics[0]
     }
 
-    print(f"\n📊 Avg Val Metrics over folds:")
+    print(f"\n Avg Val Metrics over folds:")
     for k in avg_metrics:
         print(f"   - {k.upper()} : {avg_metrics[k]:.4f} ± {std_metrics[k]:.4f}")
 

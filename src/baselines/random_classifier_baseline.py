@@ -127,7 +127,7 @@ for fname in tqdm(os.listdir(PREPROC_DIR), desc="Extracting features"):
             subjects.append(f"{subject_id}_aug{aug_idx}" if aug_idx > 0 else subject_id)
 
     except Exception as e:
-        print(f"⚠️ Error in {fname}: {e}")
+        print(f" Error in {fname}: {e}")
 
 X = np.array(X)
 y = np.array(y)
